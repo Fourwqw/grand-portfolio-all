@@ -1,0 +1,182 @@
+#include <iostream>
+#include <cstdio>
+#include <conio.h>
+#include <math.h>
+#include <Windows.h>
+
+using namespace std;
+
+
+void Menu();
+
+
+double FuncDerFirst(double x, double y);
+// Функции для дифф уравнений второго порядка
+double FuncDerSecond(double z, double y);
+double FuncDerThird(double x, double y, double z);
+//функции для системы
+double SystemFirst(double x, double z);
+double SystemSec(double t, double x, double y, double z);
+double SystemThird(double x, double z);
+// Процедуры методов 
+void Eler();
+void RungeKuta();
+void SecondDiff();
+void SystemDiff();
+
+int main() {
+	setlocale(NULL, "RUS");
+	int point = -1;
+	while (point != 5)
+	{
+
+		switch (point)
+		{
+		case -1: 
+			system("cls");
+
+			Menu();
+			point = -2;
+		case -2: 
+			cout << "\n>> ";
+			cin >> point;
+			break;
+		case 1:
+			system("cls");
+
+			Eler();
+
+			_getch();
+			system("cls");
+			point = -1;
+			break;
+		case 2:
+			system("cls");
+
+			RungeKuta();
+
+			_getch();
+			system("cls");
+			point = -1;
+			break;
+		case 3:
+			system("cls");
+
+			SecondDiff();
+
+			_getch();
+			system("cls");
+			point = -1;
+			break;
+		case 4: 
+			system("cls");
+
+			SystemDiff();
+			_getch();
+
+			system("cls");
+			point = -1;
+			break;
+		case 5: 
+			break;
+		default:
+			cout << "Ошибка, повторите попытку" << endl;
+			point = -2;
+		}
+	}
+	return 0;
+}
+void Menu(){
+	cout << "--------Главное меню--------" << endl
+		<< "1) Метод Эйлера" << endl
+		<< "2) Метод Рунге-Кутта" << endl
+		<< "3) Дифференциальное уравнение второго порядка" << endl
+		<< "4) Система дифференциальных уравнений" << endl
+		<< "5) Выход из программы" << endl;
+}
+// функция первой производной
+double FuncDerFirst(double x, double y){
+	return y * (1 - x); 
+}
+// функция второй производной
+double FuncDerSecond(double z, double y){
+	return y + 0.1*z; 
+}
+// функция третьей производной
+double FuncDerThird(double x, double y, double z){
+	return z + 0.1*(-(z / x + y)); 
+}
+//функции для системы
+double SystemFirst(double x, double z) {
+	return ((-2) * x + 5 * z);
+}
+double SystemSec(double t, double x, double y, double z) {
+	return (sin(t - 1) * x - y - 3*z);
+} 
+double SystemThird(double x, double z) {
+	return ((-x) + 2 * z);
+}
+// Методы 
+void Eler() {
+	int i, n;
+	double x, y, h;
+
+	h = 0.01;
+	n = 100; 
+	x = 0; 
+	y = 1; 
+	for (i = 0; i < n; i++)
+	{
+		y += h * FuncDerFirst(x, y); 
+		x += h;
+	}
+	cout << "Метод Эйлера: " << y << endl;
+}
+void RungeKuta() {
+	int i, n;
+	double x, y, h, k1, k2, k3, k4;
+
+	h = 0.01; 
+	n = 100;  
+	x = 0; 
+	y = 1; 
+	for (i = 0; i < n; i++) {
+		k1 = FuncDerFirst(x, y);
+		k2 = FuncDerFirst(x + h / 2, y + h * k1 / 2);
+		k3 = FuncDerFirst(x + h / 2, y + h * k2 / 2);
+		k4 = FuncDerFirst(x + h, y + h * k3);
+		y = y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+		x += h;
+	}
+	cout << "Метод Рунге-Кутта: " << y << endl;
+}
+void SecondDiff(){
+	int i;
+	double x, y, z, h;
+	h = 0.1; 
+	x = 1; 
+	y = 0.77; 
+	z = -0.44;
+	for (x; x < 1.6; x += h)
+	{
+		y = FuncDerSecond(z, y);
+		z = FuncDerThird(x, y, z);
+		cout << "x: " << x << "| y: " << y << "| z: " << z << endl;		
+	}
+}
+void SystemDiff(){
+	int i;
+	double x, y, z, t, h;
+
+	h = 0.05;  
+	x = 2; 
+	y = 1; 
+	z = 1;
+
+	for (t = 0; t <= 2.05; t += h){
+		x += h * SystemFirst(x, z);
+		y += h * SystemSec(t, x, y, z);
+		z += h * SystemThird(x, z);
+		cout << "x: " << x << "| y: " << y << "| z: " << z << "| t: " << t << endl;
+	}
+}
