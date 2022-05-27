@@ -11,6 +11,8 @@
 ## Второй курс
 ### [Программирование 3 сем](https://github.com/Fourwqw/portfolio-prog-py) 
 ### [Программирование 4 сем](https://github.com/Fourwqw/portfolio-prog-py) 
+### [Веб-разработка 3 сем](https://github.com/Fourwqw/AntonKuznetsov.github.io)
+### [Веб-разработка 4 сем](https://github.com/Fourwqw/AntonKuznetsov.github.io)
 ### Анализ данных
 ### Графика
 ### Операционные системы
